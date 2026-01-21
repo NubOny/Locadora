@@ -42,7 +42,7 @@ Este projeto foi desenvolvido **exclusivamente para fins de aprendizado**, com f
 
 1. Clone o repositório:
    ```bash
-   git clone https://github.com/seu-usuario/nome-do-repositorio.git
+   git clone https://github.com/NubOny/Locadora.git
 2. Execute o programa conforme a linguagem utilizada.
 
 ---
