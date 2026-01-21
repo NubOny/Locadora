@@ -1,21 +1,114 @@
+import 'dart:io';
 import 'models/classes.dart';
 import 'func/funcoes.dart';
+import 'data/repositories.dart';
 
 void main() {
-  Client c1 = Client(
-    name: 'John', 
-    cpf: '123.456.789-99', 
-    code: 1
-    );
+  int id_cliente = 1;
+  var clientRepo = ClientRepository();
+  int bloqueados = 0;
+  int id_filme = 1;
+  var movieRepo = MovieRepository();
+  var borrowRepo = BorrowRepository();
+  bool rodando = true;
 
-  Movie m1 = Movie(
-    category: 'Horror', 
-    title: 'IT - A coisa'
-    );
+  print('Bem vindo ao sistema');
+  while (rodando) {
+    print("""
+    1 - Cadastrar novo cliente
+    2 - Mostrar todos os clientes ativos
+    3 - Bloquear cliente
+    4 - Desbloquear cliente
+    5 - Cadastrar Filme
+    6 - Listar Filmes
+    7 - Verificar disponibilidade de filme
+    8 - Fazer novo Emprestimo
+    9 - Verificar Emprestimos Ativos
+    0 - Sair
+    """);
+    final int input = int.parse(stdin.readLineSync()!);
 
-  movieCheck(m1);
-  makeBorrow(c1, m1);
-  makeBorrow(c1, m1);
-  m1.movieBack();
-  movieCheck(m1);
+    switch (input) {
+      case 1:
+        print('Qual o nome do cliente?');
+        String name = stdin.readLineSync()!;
+        print('Qual o CPF?');
+        String cpf = stdin.readLineSync()!;
+
+        clientRepo.add(Client(name: name, cpf: cpf, code: id_cliente));
+        id_cliente++;
+
+        break;
+
+      case 2:
+        clientRepo.listClients();
+        break;
+
+      case 3:
+        print(
+          'Qual o ID do cliente para ser bloqueado? (Digite 0 para sair)\n',
+        );
+        int idBlock = int.parse(stdin.readLineSync()!);
+
+        clientRepo.findByCode(idBlock)?.deactivate();
+
+      case 4:
+        print('Qual o ID do cliente para ser bloqueado?');
+        int idUnblock = int.parse(stdin.readLineSync()!);
+
+        clientRepo.findByCode(idUnblock)?.activate();
+        break;
+
+      case 5:
+        print('Qual o titulo do Filme?');
+        String title = stdin.readLineSync()!;
+        print('Qual a Categoria do Filme?');
+        String category = stdin.readLineSync()!;
+
+        movieRepo.add(Movie(category: category, title: title, code: id_filme));
+        id_filme++;
+
+        break;
+
+      case 6:
+        movieRepo.listMovies();
+        break;
+
+      case 7:
+        print('Qual o codigo do livro? (Digite 0 para sair)\n');
+        String input = stdin.readLineSync()!;
+        if (input == 0) {
+          break;
+        } else {
+          movieRepo.findByCode(int.parse(input))!.checkAvaliable();
+        }
+        break;
+
+      case 8:
+        print('Qual o ID do cliente? ');
+        int clientBorrow = int.parse(stdin.readLineSync()!);
+        print('Qual o ID do Filme? ');
+        int movieBorrow = int.parse(stdin.readLineSync()!);
+
+        borrowRepo.add(
+          Borrow(
+            c: clientRepo.findByCode(clientBorrow)!,
+            m: movieRepo.findByCode(movieBorrow)!,
+          ),
+        );
+
+        break;
+
+      case 9:
+        borrowRepo.listBorrow();
+        break;
+
+      case 0:
+        rodando = false;
+        break;
+
+      default:
+        print('Entrada Invalida');
+    }
+  }
 }
