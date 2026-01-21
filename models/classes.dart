@@ -90,11 +90,4 @@ class Borrow {
     Situação do filme: ${m.avaliable}
     """);
   }
-
-  void autoDeactive() {
-    if (m.avaliable == true) {
-      _active = false;
-    }
-  }
-  
 }
