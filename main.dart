@@ -75,7 +75,7 @@ void main() {
         break;
 
       case 7:
-        print('Qual o codigo do livro? (Digite 0 para sair)\n');
+        print('Qual o codigo do filme? (Digite 0 para sair)\n');
         String input = stdin.readLineSync()!;
         if (input == 0) {
           break;
@@ -96,6 +96,8 @@ void main() {
             m: movieRepo.findByCode(movieBorrow)!,
           ),
         );
+
+        movieRepo.findByCode(movieBorrow)!.borrow();
 
         break;
 
