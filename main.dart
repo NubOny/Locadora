@@ -45,12 +45,19 @@ void main() {
         break;
 
       case 3:
-        print(
-          'Qual o ID do cliente para ser bloqueado? (Digite 0 para sair)\n',
-        );
-        int idBlock = int.parse(stdin.readLineSync()!);
+        if (bloqueados != 0) {
+          print('Não há Clientes Bloqueados.');
+          break;
+        } else {
+          print(
+            'Qual o ID do cliente para ser bloqueado? (Digite 0 para sair)\n',
+          );
+          int idBlock = int.parse(stdin.readLineSync()!);
 
-        clientRepo.findByCode(idBlock)?.deactivate();
+          clientRepo.findByCode(idBlock)?.deactivate();
+
+          break;
+        }
 
       case 4:
         print('Qual o ID do cliente para ser bloqueado?');
@@ -76,11 +83,11 @@ void main() {
 
       case 7:
         print('Qual o codigo do filme? (Digite 0 para sair)\n');
-        String input = stdin.readLineSync()!;
+        int input = int.parse(stdin.readLineSync()!);
         if (input == 0) {
           break;
         } else {
-          movieRepo.findByCode(int.parse(input))!.checkAvaliable();
+          movieCheck(movieRepo.findByCode(input)!);
         }
         break;
 
@@ -90,15 +97,10 @@ void main() {
         print('Qual o ID do Filme? ');
         int movieBorrow = int.parse(stdin.readLineSync()!);
 
-        borrowRepo.add(
-          Borrow(
-            c: clientRepo.findByCode(clientBorrow)!,
-            m: movieRepo.findByCode(movieBorrow)!,
-          ),
+        makeBorrow(
+          clientRepo.findByCode(clientBorrow)!, 
+          movieRepo.findByCode(movieBorrow)!,
         );
-
-        movieRepo.findByCode(movieBorrow)!.borrow();
-
         break;
 
       case 9:
