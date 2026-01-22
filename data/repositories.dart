@@ -6,13 +6,17 @@ class ClientRepository {
   void add(Client client) => _clients.add(client);
 
   void listClients() {
+    bool hasActive = false;
+
     for (Client client in _clients) {
-      if (client.active){
-      client.showData();
+      if (client.active) {
+        client.showData();
+        hasActive = true;
       }
-      else {
-        print('Nao ha clientes ativos.');
-      }
+    }
+
+    if (!hasActive) {
+      print('Não há clientes ativos.');
     }
   }
 
@@ -32,6 +36,12 @@ class MovieRepository {
   void add(Movie movie) => _movies.add(movie);
 
   void listMovies() {
+
+    if (_movies.isEmpty) {
+      print('Nenhum filme cadastrado.');
+      return;
+    }
+
     for (var movie in _movies) {
       movie.showInfo();
     }
@@ -53,10 +63,17 @@ class BorrowRepository {
   void add(Borrow borrow) => _borrow.add(borrow);
 
   void listBorrow() {
+    bool hasActive = false;
+    print('Emprestimos Ativos:');
     for (var borrow in _borrow) {
       if (borrow.active) {
         borrow.detail();
+        hasActive = true;
       }
+    }
+
+    if (!hasActive) {
+      print('Nenhum emprestimo ativo.');
     }
   }
 }

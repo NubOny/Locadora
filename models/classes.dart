@@ -34,9 +34,11 @@ class Client extends Person {
   void showData() {
     print("""
     Nome: ${name}
-    Code: ${code}
+    CPF: ${cpf}
+    ID: ${code}
     """);
   }
+  
 }
 
 class Movie {
